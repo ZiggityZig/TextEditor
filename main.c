@@ -1,3 +1,4 @@
+/*** includes ***/
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -8,7 +9,12 @@
 
 typedef struct termios termios;
 
+/*** data ***/
+
 termios orig_termios;
+char debug = 0;
+
+/*** terminal ***/
 
 void die(const char *s) {
   perror(s);
@@ -40,12 +46,13 @@ void enableRawMode()
     die("tcsetattr");
 }
 
+
+/*** init ***/
+
 int main(int argc, char **argv)
 {
   enableRawMode();
   char c;
-  char debug = 0;
-
   for (int i = 1; i < argc; i++)
   {
     if (strncmp(argv[i], "-D", 2) == 0)
