@@ -13,7 +13,7 @@ void enableRawMode() {
   tcgetattr(STDIN_FILENO, &orig_termios);
   atexit(disableRawMode);
   termios raw = orig_termios;
-  raw.c_lflag &= ~(ECHO);
+  raw.c_lflag &= ~(ECHO | ICANON);
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
@@ -21,7 +21,6 @@ int main (int argc, char** argv){
     enableRawMode();
     char c;
     while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q'){
-        printf("%c", c);
     }
 
     return 0;
